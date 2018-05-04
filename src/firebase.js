@@ -10,6 +10,6 @@ import * as firebase from 'firebase';
   firebase.initializeApp(config);
 
 export const database = firebase.database().ref('posts/');
-export const docDB = firebase.database().ref('docs/');
+export const storage = firebase.storage().ref();
 export const auth = firebase.auth();
 export const profile = firebase.database().ref('profile/');

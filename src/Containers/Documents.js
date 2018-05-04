@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import { connect } from 'react-redux';
-import { Field, reduxForm, reset } from 'redux-form';
-import _ from 'lodash';
+import {reduxForm} from 'redux-form';
 import '../Styles/App.css';
-import PostCard from '../Components/PostCard';
 import { getUser, logout } from '../Actions/UserActions';
 import {getDocs, saveDoc, deleteDoc} from '../Actions/DocActions';
 
@@ -36,32 +34,10 @@ class Documents extends Component {
   }
   handleUploadSuccess = (filename) => {
     this.setState({avatar: filename, progress: 100, isUploading: false});
-    firebase.storage().ref('images').child(filename).getDownloadURL().then(url => this.setState({avatarURL: url}));
+    firebase.storage().ref('files').child(filename).getDownloadURL().then(url => this.setState({docURL: url}));
   };
-  renderDocs(){
-    return _.map(this.props.docs, (doc, key) => {
-      return (
-        <PostCard key={key}>
-          <img href={doc} />
-          <p className="card-text">
-            placeholder
-          </p>
-          <button className="btn btn-danger float-right" onClick={() => this.props.deleteDoc(key)}>Delete</button>
-        </PostCard>
-      );
-    });
-  };
-  renderField(field) {
-    return (
-      <input type="file" className={field.class}/>
-    );
-  }
-  onSubmit(values) {
-    this.props.saveDoc(values).then(this.props.dispatch(reset('NewDoc')));
-  }
 
   render() {
-    const { handleSubmit } = this.props;
 
     return (
       <div>
@@ -71,22 +47,15 @@ class Documents extends Component {
         <div>
           {this.renderDocs()}
         </div>
-        <div>
-          <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="footerForm">
-              <Field
-                name="title"
-                component={this.renderField}
-                class="footer-title"
-              />
-              <button type="submit" className="btn footer-button">Post</button>
-            </form>
-        </div>
         <div className="docUploader">
+          {this.state.docURL &&
+            <img alt="your image" className="docImg" src={this.state.docURL} />
+          }
           <FileUploader
-            accept="image/*"
-            name="avatar"
+            accept="file/*"
+            name="doc"
             randomizeFilename
-            storageRef={firebase.storage().ref('images')}
+            storageRef={firebase.storage().ref('files')}
             onUploadStart={this.handleUploadStart}
             onUploadError={this.handleUploadError}
             onUploadSuccess={this.handleUploadSuccess}

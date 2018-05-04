@@ -1,3 +1,16 @@
+@media only screen and (max-width: 640px){
+	.footer-title,.footer-body,.footer-button{
+		width:100% !important;
+	}
+}
+@media only screen and (max-width:800px){
+	.card, .container, .loginContainer{
+		width:100% !important;
+	}
+}
+.docImg{
+	height:300px;
+}
 #announcements{
 	padding:1rem;
 }

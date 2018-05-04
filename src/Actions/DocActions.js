@@ -1,9 +1,9 @@
-import {docDB} from '../firebase';
+import {storage} from '../firebase';
 export const FETCH_DOCS = 'fetch_docs';
 
 export function getDocs(){
 	return dispatch => {
-		docDB.on('value', snapshot => {
+		storage.on('value', snapshot => {
 			dispatch({
 				type:FETCH_DOCS,
 				payload:snapshot.val()
@@ -12,8 +12,9 @@ export function getDocs(){
 	}
 };
 export function saveDoc(doc){
-	return dispatch => docDB.push(doc)
+	return dispatch => storage.put(doc)
+	console.log('saveDoc ran');
 };
 export function deleteDoc(id){
-	return dispatch => docDB.child(id).remove();
+	return dispatch => storage.child(id).remove();
 };
