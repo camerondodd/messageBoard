@@ -44,9 +44,6 @@ class Documents extends Component {
         <div className="navbar">
           <button className="btn btn-danger" onClick={() => {this.props.logout();}}>Sign out</button>
         </div>
-        <div>
-          {this.renderDocs()}
-        </div>
         <div className="docUploader">
           {this.state.docURL &&
             <img alt="your image" className="docImg" src={this.state.docURL} />
